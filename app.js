@@ -1,6 +1,5 @@
 const readline = require('readline');
 const expenses = require("./expenses.js");
-const _ = require('lodash');
 
 var rl = readline.createInterface({
     input: process.stdin,
@@ -15,8 +14,8 @@ rl.on('line', (data) => {
     inputString = data.split(" ");
     
     var command = inputString[0];
-
     if (command == 'add') {
+        //Loking for complex item consists from >1 words
         var fullItemName = inputString[4] + " ";
         if (inputString[4].indexOf('\"') >= 0 || inputString[4].indexOf('\“') >= 0 || inputString[4].indexOf("\'") >= 0)
         {
@@ -29,14 +28,15 @@ rl.on('line', (data) => {
                     fullItemName += inputString[i] + " ";
                 }
             }
+            //Removing \' elements
             fullItemName = fullItemName.slice(1).slice(0, -1);
         }
-        console.log(fullItemName);
         
+        //Adding a new expence
         var expense = expenses.addExpense(inputString[1], inputString[2], inputString[3], fullItemName);
         if (expense) {
             var allExpenses = expenses.getAllExpenses();
-            console.log('\n' + showStringClear(allExpenses));
+            console.log('\n' + expenses.showStringClear(allExpenses));
         } else {
             console.log('Falied adding expence!');
         }
@@ -44,13 +44,13 @@ rl.on('line', (data) => {
     
     else if (command == 'list') {
         var allExpenses = expenses.getAllExpenses();
-        console.log('\n' + showStringClear(allExpenses));
+        console.log('\n' + expenses.showStringClear(allExpenses));
     }
     
     else if (command === 'clear') {
-        expenses.removeExpense(inputString[1]);
         var allExpenses = expenses.getAllExpenses();
-        console.log('\n' + showStringClear(allExpenses));
+        allExpenses = expenses.removeExpense(inputString[1]);
+        console.log('\n' + expenses.showStringClear(allExpenses));
     } 
     
     else if (command === 'total') {
@@ -59,38 +59,10 @@ rl.on('line', (data) => {
     }
     
     else {
-        console.log(`Command ${command} is not recognized! \n Please, choose one command from list \n" + 
+        console.log(`Command "${command}" is not recognized! \n Please, choose one command from list \n` + 
         "- add <YYYY-MM-DD> <amount> <currency> <item>\n" +
         "- clear <YYYY-MM-DD> \n" +
         "- list \n" +
-        "- total <currency>`);
+        "- total <currency>");
     };
 });
-
-var occurrenceDay = (occurrence) => {
-    return occurrence.date;
-};
-
-var groupToDay = (group, day) => {
-    return {
-        day: day,
-        items: group
-    }
-};
-
-var showStringClear = (arr) => {
-    var result = _.chain(arr)
-        .groupBy(occurrenceDay)
-        .map(groupToDay)
-        .sortBy('day')
-        .value();
-    var resultView = "";
-    result.forEach(element => {
-        resultView += element.day + '\n';
-        element.items.forEach(value => {
-            resultView += value.item + " " + value.amount + " " + value.currency + "\n";
-        });
-        resultView += "\n"
-    });
-    return resultView;
-}

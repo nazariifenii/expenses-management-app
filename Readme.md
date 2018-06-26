@@ -1,4 +1,4 @@
-<h3>Personal Expenses Management Application overview<h3>
+<h3>Personal Expenses Management Application overview</h3>
     <p>Personal expenses management offline application that allows users to track how much money have they spent.</p>
      <hr>
     <h3>How to install:</h3>

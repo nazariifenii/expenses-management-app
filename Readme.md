@@ -1,13 +1,13 @@
 <h3>Personal Expenses Management Application overview<h3>
     <p>Personal expenses management offline application that allows users to track how much money have they spent.</p>
-    
-    <b>How to install:</b>
+     <hr>
+    <h3>How to install:</h3>
     <ul>
         <li>Run <b>npm install</b> in root directory</li>
         <li>After successfull installation, run <b>npm start</b></li>
     </ul>
-    
-    Following commands which supported by application
+   <hr>
+    <h3>Following commands which supported by application</h3>
      <ul>
       <li>add 2017-04-25 12 USD Jogurt — adds expense entry to the list
       of user expenses. Command accepts following parameters:
